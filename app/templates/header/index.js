@@ -10,11 +10,8 @@ const assets = require('../../../common/assets');
   has a custom loader (/build/version_loader.js) just to replace
   string with the value from package.json. 🤢
 */
-const version = require('../../../package.json').version || 'VERSION';
-const browser = browserName();
 
 module.exports = function(state) {
-  const feedbackUrl = `https://qsurvey.mozilla.com/s3/txp-firefox-send?ver=${version}&browser=${browser}`;
   const header = html`
   <header class="header">
     <div class="logo">
@@ -29,10 +26,6 @@ module.exports = function(state) {
         <div>${state.translate('siteSubtitle')}</div>
       </div>
     </div>
-    <a href="${feedbackUrl}"
-      rel="noreferrer noopener"
-      class="feedback"
-      target="_blank">${state.translate('siteFeedback')}</a>
   </header>`;
   // HACK
   // We only want to render this once because we
@@ -42,26 +35,3 @@ module.exports = function(state) {
   };
   return header;
 };
-
-function browserName() {
-  try {
-    if (/firefox/i.test(navigator.userAgent)) {
-      return 'firefox';
-    }
-    if (/edge/i.test(navigator.userAgent)) {
-      return 'edge';
-    }
-    if (/trident/i.test(navigator.userAgent)) {
-      return 'ie';
-    }
-    if (/chrome/i.test(navigator.userAgent)) {
-      return 'chrome';
-    }
-    if (/safari/i.test(navigator.userAgent)) {
-      return 'safari';
-    }
-    return 'other';
-  } catch (e) {
-    return 'unknown';
-  }
-}

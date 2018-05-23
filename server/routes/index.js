@@ -24,28 +24,6 @@ module.exports = function(app) {
       force: !IS_DEV
     })
   );
-  if (!IS_DEV) {
-    app.use(
-      helmet.contentSecurityPolicy({
-        directives: {
-          defaultSrc: ["'self'"],
-          connectSrc: [
-            "'self'",
-            'https://sentry.prod.mozaws.net',
-            'https://www.google-analytics.com'
-          ],
-          imgSrc: ["'self'", 'https://www.google-analytics.com'],
-          scriptSrc: ["'self'"],
-          styleSrc: ["'self'", 'https://code.cdn.mozilla.net'],
-          fontSrc: ["'self'", 'https://code.cdn.mozilla.net'],
-          formAction: ["'none'"],
-          frameAncestors: ["'none'"],
-          objectSrc: ["'none'"],
-          reportUri: '/__cspreport__'
-        }
-      })
-    );
-  }
   app.use(function(req, res, next) {
     res.set('Pragma', 'no-cache');
     res.set('Cache-Control', 'no-cache');

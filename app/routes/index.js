@@ -3,22 +3,13 @@ const html = require('choo/html');
 const nanotiming = require('nanotiming');
 const download = require('./download');
 const header = require('../templates/header');
-const footer = require('../templates/footer');
-const fxPromo = require('../templates/fxPromo');
 
 nanotiming.disabled = true;
 const app = choo();
 
-function banner(state, emit) {
-  if (state.promo && !state.route.startsWith('/unsupported/')) {
-    return fxPromo(state, emit);
-  }
-}
-
 function body(template) {
   return function(state, emit) {
     const b = html`<body>
-      ${banner(state, emit)}
       ${header(state)}
       <main class="main">
         <noscript>
@@ -34,7 +25,6 @@ function body(template) {
         </noscript>
         ${template(state, emit)}
       </main>
-      ${footer(state)}
     </body>`;
     if (state.layout) {
       // server side only
